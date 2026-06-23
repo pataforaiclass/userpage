@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <style>
+    .title {
+      height: 200px;
+      background-image: url('./img/landscape01.avif');
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .navBox {
+      height: 100px;
+      color: white;
+      line-height: 100px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 50px;
+    }
+
+    .card {
+      box-shadow: 2px 2px 2px 2px lightgray;
+    }
+
+    .roller-l {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roller-l .rollerBox {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      /* 半透明玻璃效果 */
+      background: linear-gradient(145deg, rgba(205, 128, 114, 0.5), rgba(135, 206, 235, 0.5));
+
+      /* 背景柔焦模糊 */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      /* 增加玻璃質感 */
+      border: 1px solid rgba(255, 255, 255, 0.25);
+
+      left: -100%;
+      transition: left 1s;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .roller-l:hover .rollerBox {
+      left: 0;
+    }
+
+    .roller-r {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roller-r .rollerBox {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      /* 半透明玻璃效果 */
+      background: linear-gradient(145deg, rgba(216, 112, 147, 0.5), rgba(205, 128, 114, 0.5));
+
+      /* 背景柔焦模糊 */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      /* 增加玻璃質感 */
+      border: 1px solid rgba(255, 255, 255, 0.25);
+
+      right: -100%;
+      transition: right 1s;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .roller-r:hover .rollerBox {
+      right: 0;
+    }
+
+    @media screen and (min-width:768px) {
+      .navBox {
+        height: 200px;
+        line-height: 200px;
+      }
+    }
+
+    @media screen and (min-width:992px) {
+      .navBox {
+        width: 200px;
+        border-radius: 50%;
+      }
+    }
+
+    @media screen and (min-width:1200px) {
+      .navBox {
+        width: 240px;
+        height: 240px;
+        line-height: 240px;
+        border-radius: 50%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 title d-none d-sm-block"></div>
+    </div>
+    <div class="row mt-2 g-3">
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="bg-primary navBox">選單01</div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="bg-primary navBox">選單02</div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="bg-primary navBox">選單03</div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="bg-primary navBox">選單04</div>
+      </div>
+    </div>
+    <div class="row mt-2 g-3" id="content">
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card roller-r">
+          <img src="./img/landscape01.avif" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h3>旅遊景點</h3>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
+          </div>
+          <div class="rollerBox">
+            <div class="btn btn-warning disabled">查看更多</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-4.0.0.min.js"></script>
+  <script>
+    //主程式
+    $(function () {
+      //載入資料
+      $.ajax({
+        type: 'GET',
+        url: 'js/ODwsvTravelFood.json',
+        dataType: 'json',
+        success: function (data) {
+          //成功時能抓到資料
+          // console.log(data);
+          //資料清洗
+          const cleanData = data.map(function (item, index) {
+            let name = (item.Name ?? '').trim();
+            if (name == '') name = '未提供名稱';
+            let img = (item.PicURL ?? '').trim();
+            if (img == '') img = '未提供圖片';
+            let address = (item.City ?? '').trim() + (item.Town ?? '').trim() + (item.Address ?? '').trim();
+            if (address == '') address = '未提供地址';
+            let tel = (item.Tel ?? '').trim();
+            if (tel == '') tel = '未提供電話';
+            let email = (item.Email ?? '').trim();
+            if (email == '') email = '未提供電子信箱';
+            let hostWords = (item.HostWords ?? '').trim();
+            if (hostWords == '') hostWords = '未提供簡介';
+            let url = (item.Url ?? '').trim();
+            return {
+              id: index + 1,
+              name: name,
+              img: img,
+              address: address,
+              tel: tel,
+              email: email,
+              hostWords: hostWords,
+              url: url
+            }
+          });
+          // console.log(cleanData);
+          //輸出
+          $('#content').empty();
+          cleanData.forEach(function (item) {
+            let strHTML = `<div class="col-12 col-md-6 col-lg-4">
+                            <div class="card roller-r">
+                              <img src="${item.img}" alt="...">
+                              <div class="card-body">
+                                <h3>${item.name}</h3>
+                                <p class="card-text">${item.hostWords}</p>
+                                <p class="card-text"><b>地址：</b>${item.address}</p>
+                                <p class="card-text"><b>電話：</b>${item.tel}</p>
+                                <p class="card-text"><b>信箱：</b>${item.email}</p>
+                              </div>
+                              <div class="rollerBox">
+                                ${(item.url==''?`
+                                <div class="btn btn-warning disabled">未提供網址</div>
+                                `:`
+                                <a href="${item.url}" class="btn btn-warning">查看更多</a>
+                                `)}
+                              </div>
+                            </div>
+                          </div>`;
+            $('#content').append(strHTML);
+          });
+        },
+        error: function (err) {
+          //失敗時輸出錯誤訊息
+          console.log(err);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
