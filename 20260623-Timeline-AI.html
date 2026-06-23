@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時間軸</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <style>
+    :root {
+      --metal-dark: #0b1118;
+      --metal-primary: #111b27;
+      --metal-secondary: #182635;
+      --metal-card: rgba(20, 32, 45, 0.88);
+      --metal-border: rgba(118, 183, 255, 0.35);
+      --metal-glow: #47c9ff;
+      --metal-light: #d8ecff;
+      --metal-text: #c8d4e3;
+      --metal-line: #3bc8ff;
+    }
+
+    * {
+      transition: 0.3s;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(71, 201, 255, 0.15), transparent 25%),
+        radial-gradient(circle at bottom left, rgba(0, 153, 255, 0.15), transparent 30%),
+        linear-gradient(135deg, #060b12, #101a25, #0b1118);
+      min-height: 100vh;
+      color: var(--metal-text);
+      font-family: "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding-top: 50px;
+      padding-bottom: 60px;
+    }
+
+    .display-2 {
+      color: var(--metal-light) !important;
+      letter-spacing: 8px;
+      text-shadow:
+        0 0 10px rgba(71, 201, 255, 0.5),
+        0 0 25px rgba(71, 201, 255, 0.3);
+      position: relative;
+      margin-bottom: 70px !important;
+    }
+
+    .display-2::after {
+      content: '';
+      width: 180px;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--metal-glow), transparent);
+      position: absolute;
+      left: 50%;
+      bottom: -15px;
+      transform: translateX(-50%);
+    }
+
+    .imgbox {
+      height: 260px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(71, 201, 255, 0.3);
+      box-shadow:
+        0 0 15px rgba(71, 201, 255, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.04);
+      position: relative;
+    }
+
+    .imgbox::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(255, 255, 255, 0.12),
+          rgba(0, 0, 0, 0.25));
+    }
+
+    .bg-cover {
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .timeline-section {
+      position: relative;
+    }
+
+    .timeline-section-pointer {
+      position: relative;
+      margin-bottom: 60px;
+    }
+
+    .textbox {
+      background: var(--metal-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--metal-border);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow:
+        0 0 25px rgba(71, 201, 255, 0.08),
+        inset 0 0 15px rgba(255, 255, 255, 0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .textbox::before {
+      content: '';
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(71, 201, 255, 0.2), transparent 70%);
+      top: -50px;
+      right: -50px;
+    }
+
+    .textbox .h2 {
+      color: var(--metal-light);
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(71, 201, 255, 0.3);
+    }
+
+    .textbox p {
+      line-height: 1.9;
+      color: var(--metal-text);
+      margin-bottom: 10px;
+    }
+
+    @media screen and (min-width:768px) {
+      .timeline-section::before {
+        position: absolute;
+        content: '';
+        top: 110px;
+        bottom: 0;
+        left: 50%;
+        width: 3px;
+        background:
+          linear-gradient(to bottom,
+            rgba(59, 200, 255, 0.1),
+            var(--metal-line),
+            rgba(59, 200, 255, 0.1));
+        box-shadow:
+          0 0 12px rgba(59, 200, 255, 0.8);
+        transform: translateX(-50%);
+      }
+
+      .timeline-section-pointer::before {
+        position: absolute;
+        content: '';
+        width: 24px;
+        height: 24px;
+        background:
+          radial-gradient(circle,
+            #dff7ff 0%,
+            #77dbff 45%,
+            #1e7aa5 100%);
+        border: 4px solid rgba(10, 20, 30, 0.9);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow:
+          0 0 18px rgba(71, 201, 255, 0.9),
+          0 0 35px rgba(71, 201, 255, 0.4);
+        z-index: 5;
+      }
+    }
+
+    @media screen and (max-width:767px) {
+      .display-2 {
+        font-size: 2.4rem;
+        letter-spacing: 3px;
+      }
+
+      .textbox {
+        padding: 25px;
+      }
+
+      .imgbox {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="display-2 text-center fw-bold text-primary my-4">
+      NOVA TECH 發展歷程
+    </div>
+
+    <div class="timeline-section">
+
+      <div class="row align-items-center timeline-section-pointer">
+        <div class="col-md-6 mt-3">
+          <div class="imgbox bg-cover"
+            style="background-image: url(img/landscape01.avif);">
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+          <div class="textbox">
+            <div class="h2">
+              <i class="fa-solid fa-microchip me-2"></i>
+              2018｜品牌創立
+            </div>
+
+            <p>
+              NOVA TECH 於台北成立，專注於智慧系統整合與企業數位轉型，
+              以金屬科技美學與高效能架構作為品牌核心理念。
+            </p>
+
+            <p>
+              團隊初期由 5 位軟硬體工程師組成，
+              致力於打造兼具穩定性與未來感的科技產品。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center flex-lg-row-reverse timeline-section-pointer">
+        <div class="col-md-6 mt-3">
+          <div class="imgbox bg-cover"
+            style="background-image: url(img/landscape02.avif);">
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+          <div class="textbox">
+            <div class="h2">
+              <i class="fa-solid fa-server me-2"></i>
+              2019｜雲端平台上線
+            </div>
+
+            <p>
+              公司推出第一代 AI 雲端監控平台，
+              可即時分析設備數據並提供自動化警示機制。
+            </p>
+
+            <p>
+              平台成功導入多家製造企業，
+              大幅提升資料管理效率與設備維運穩定度。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center timeline-section-pointer">
+        <div class="col-md-6 mt-3">
+          <div class="imgbox bg-cover"
+            style="background-image: url(img/landscape03.avif);">
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+          <div class="textbox">
+            <div class="h2">
+              <i class="fa-solid fa-robot me-2"></i>
+              2021｜AI 技術整合
+            </div>
+
+            <p>
+              NOVA TECH 將人工智慧演算法整合至產品核心，
+              導入影像辨識與自動預測分析技術。
+            </p>
+
+            <p>
+              透過深度學習模型，
+              協助企業在大量資料中快速取得決策資訊。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center flex-lg-row-reverse timeline-section-pointer">
+        <div class="col-md-6 mt-3">
+          <div class="imgbox bg-cover"
+            style="background-image: url(img/landscape04.avif);">
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+          <div class="textbox">
+            <div class="h2">
+              <i class="fa-solid fa-globe me-2"></i>
+              2023｜國際市場拓展
+            </div>
+
+            <p>
+              公司正式進軍亞洲市場，
+              與多家跨國企業建立長期合作關係。
+            </p>
+
+            <p>
+              同時成立全球技術支援中心，
+              提供 24 小時雲端維運與資訊安全服務。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center timeline-section-pointer">
+        <div class="col-md-6 mt-3">
+          <div class="imgbox bg-cover"
+            style="background-image: url(img/landscape05.avif);">
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+          <div class="textbox">
+            <div class="h2">
+              <i class="fa-solid fa-satellite-dish me-2"></i>
+              2026｜智慧未來計畫
+            </div>
+
+            <p>
+              NOVA TECH 啟動「Smart Future Initiative」，
+              發展新世代智慧城市與能源管理技術。
+            </p>
+
+            <p>
+              透過 IoT、AI 與高效能運算平台，
+              建立更安全、更即時、更永續的科技生態系統。
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
