@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>咖啡時光 Coffee Time</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/all.min.css">
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background-color: #F5E6D3;
+            padding: 15px;
+            font-family: "Noto Sans TC", sans-serif;
+            color: #2B2B2B;
+            line-height: 1.8;
+        }
+
+        .wrapper{
+            width: 100%;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+
+        /* Banner */
+
+        .banner{
+            overflow: hidden;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        }
+
+        .imgbox{
+            width: 100%;
+            height: 260px;
+            background-color: #4B2E2B;
+            background-image: url(images/coffee02.avif);
+            background-position: center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .imgbox::after{
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.28);
+        }
+
+        /* Navigation */
+
+        .banner nav{
+            width: 100%;
+            background-color: #4B2E2B;
+            text-align: center;
+            padding: 8px 0;
+        }
+
+        .banner nav ul{
+            display: inline-block;
+        }
+
+        .banner nav ul li{
+            float: left;
+            list-style-type: none;
+        }
+
+        .banner nav ul li a{
+            background-color: #D8B08C;
+            color: #4B2E2B;
+            font-weight: 700;
+            text-decoration: none;
+            display: block;
+            margin: 5px;
+            padding: 10px 18px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .banner nav ul li a:hover{
+            background-color: #A47551;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .banner nav ul li a:active{
+            background-color: #2B2B2B;
+            color: #fff;
+        }
+
+        /* Content */
+
+        .content{
+            background-color: #FFF9F3;
+            padding: 35px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .content h1{
+            margin-bottom: 25px;
+            text-align: center;
+            color: #4B2E2B;
+            font-size: 36px;
+            letter-spacing: 2px; /* 文字間距 */
+        }
+
+        .content p{
+            margin-bottom: 18px;
+            font-size: 17px;
+            color: #444;
+        }
+
+        .content a{
+            display: block;
+            width: 180px;
+            padding: 12px 0;
+            margin: 35px auto 0 auto;
+            border-radius: 30px;
+            text-align: center;
+            background-color: #4B2E2B;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .content a:hover{
+            background-color: #A47551;
+            transform: translateY(-2px);
+        }
+
+        .content a:active{
+            background-color: #2B2B2B;
+        }
+
+        /* Footer */
+
+        .footer{
+            padding: 18px;
+            background-color: #4B2E2B;
+            border-radius: 0 0 18px 18px;
+        }
+
+        .footer p{
+            color: #F5E6D3;
+            font-weight: 500;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+
+        @media screen and (max-width: 768px){
+
+            .imgbox{
+                height: 200px;
+            }
+
+            .banner nav ul li{
+                float: none;
+            }
+
+            .banner nav ul li a{
+                margin: 8px auto;
+                width: 200px;
+            }
+
+            .content{
+                padding: 25px;
+            }
+
+            .content h1{
+                font-size: 28px;
+            }
+
+            .content p{
+                font-size: 16px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="banner">
+
+            <div class="imgbox"></div>
+
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-house-chimney fa-btn-color"></i>首頁</a></li>
+                    <li><a href="#"><i class="fa-regular fa-lightbulb fa-btn-color"></i>最新消息</a></li>
+                    <li><a href="#"><i class="fa-regular fa-handshake fa-btn-color"></i>合作店家</a></li>
+                    <li><a href="#"><i class="fa-solid fa-circle-info fa-btn-color"></i>關於我們</a></li>
+                    <li><a href="#"><i class="fa-solid fa-phone fa-btn-color"></i>聯絡我們</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <div class="content">
+
+            <h1><i class="fa-solid fa-mug-hot"></i> 探索咖啡的香氣世界 <i class="fa-solid fa-mug-hot"></i></h1>
+
+            <p>
+                咖啡不只是日常飲品，更是一種生活風格。從咖啡豆的產地、烘焙程度，到沖煮方式的不同，每一杯咖啡都擁有獨特的風味與層次。
+            </p>
+
+            <p>
+                精品咖啡強調產地特色與風味表現，例如來自衣索比亞的咖啡帶有花香與果酸，而巴西咖啡則擁有濃厚堅果與巧克力香氣。透過不同的烘焙技術，可以呈現出截然不同的口感。
+            </p>
+
+            <p>
+                手沖咖啡近年來受到許多咖啡愛好者喜愛，因為它能細緻展現咖啡豆原有的香氣。控制水溫、研磨粗細與萃取時間，都是影響咖啡風味的重要因素。
+            </p>
+
+            <p>
+                無論是早晨的一杯美式咖啡，還是午後溫暖的拿鐵時光，咖啡總能為生活增添片刻的放鬆與療癒。一起走進咖啡的世界，感受每一口香醇帶來的美好吧。
+            </p>
+
+            <a href="#">了解更多</a>
+
+        </div>
+
+        <div class="footer">
+            <p>Coffee Time © 2026 All Rights Reserved</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
