@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/color.css">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: var(--bg-color);
+            padding: 10px;
+        }
+        .s01{
+            position: relative;
+            background-color: var(--surface-color);
+            width: 100%;
+            height: 100vh;
+        }
+        .s01 .box{
+            position:absolute;
+            width: 200px;
+            height: 200px;
+            background-color: var(--primary-color);
+        }
+        .s01 .b01{
+            top: 0;
+            left: 0;
+        }
+        .s01 .b02{
+            top: 0;
+            right: 0;
+        }
+        .s01 .b03{
+            bottom: 0;
+            left: 0;
+        }
+        .s01 .b04{
+            bottom: 0;
+            right: 0;
+        }
+        .s01 .userImg{
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            bottom: 100px;
+            right: 100px;
+            background-image: url(img/cat01.avif);
+            background-position: center center;
+            background-size: cover;
+            border-radius: 10px;
+            box-shadow: 3px 3px 3px 3px var(--shadow-color);
+        }
+        .s01 .userText{
+            position: relative;
+            width: 50%;
+            bottom: -75%;
+            left: 25%;
+            color: var(--text-user);
+        }
+        .s02{
+            margin-top: 20px;
+            text-align: center;
+            color: var(--text-color);
+        }
+        .s02 .card{
+            display: inline-block;
+            width: 240px;
+            background-color: var(--card-color);
+            padding: 10px;
+            margin: 5px;
+            text-align: left;
+            color: var(--text-color);
+            border-radius: 10px;
+        }
+        .s02 a{
+            display: block;
+            color: var(--text-user);
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: var(--accent-color);
+            width: 80px;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <section class="s01">
+        <div class="box b01"></div>
+        <div class="box b02"></div>
+        <div class="box b03"></div>
+        <div class="box b04"></div>
+        <div class="userImg">
+            <div class="userText">
+            <h1>大橘貓履歷</h1>
+            <hr>
+            <h2>應徵職位：奴才的主人</h2>
+            <p>簡介：相對看法分配，行動解放上去計算機查詢是我考生一大畢竟因此回頭僅供究竟，團結多年服務打算集團家庭信箱。</p>
+        </div>
+        </div>
+    </section>
+    <section class="s02">
+        <h2><i class="fa-solid fa-paw"></i> 我的作品 <i class="fa-solid fa-paw"></i></h2>
+        <div class="card">
+            <h3>切版練習</h3>
+            <br>
+            <p>初步設計響應式網頁，並以AI美化網頁風格與排版。</p>
+            <a href="20260527-1_AI.html">查看作品</a>
+        </div>
+        <div class="card">
+            <h3>資料庫導入</h3>
+            <br>
+            <p>以json檔模擬資料庫向網頁導入資料。</p>
+            <a href="20260618-2-2.html">查看作品</a>
+        </div>
+        <div class="card">
+            <h3>時間軸</h3>
+            <br>
+            <p>利用Bootstrap的flex排版，利用css before偽元素添加畫面中央的點及線。</p>
+            <a href="20260623-Timeline-AI.html">查看作品</a>
+        </div>
+        <div class="card">
+            <h3>購物網站</h3>
+            <br>
+            <p>西部當然西部點點網路讓她轉載走到來了兩。</p>
+            <a href="#">查看作品</a>
+        </div>
+        <div class="card">
+            <h3>購物網站</h3>
+            <br>
+            <p>銀行目標仔細，網通尤其是擴大，尤其是某。</p>
+            <a href="#">查看作品</a>
+        </div>
+    </section>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

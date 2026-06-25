@@ -1,143 +1,328 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="css/color.css">
     <title>Document</title>
+
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        body{
-            background-color: var(--bg-color);
-            padding: 10px;
-        }
-        .s01{
-            position: relative;
-            background-color: var(--surface-color);
-            width: 100%;
-            height: 100vh;
-        }
-        .s01 .box{
-            position:absolute;
-            width: 200px;
-            height: 200px;
-            background-color: var(--primary-color);
-        }
-        .s01 .b01{
-            top: 0;
-            left: 0;
-        }
-        .s01 .b02{
-            top: 0;
-            right: 0;
-        }
-        .s01 .b03{
-            bottom: 0;
-            left: 0;
-        }
-        .s01 .b04{
-            bottom: 0;
-            right: 0;
-        }
-        .s01 .userImg{
-            position: absolute;
-            top: 100px;
-            left: 100px;
-            bottom: 100px;
-            right: 100px;
-            background-image: url(img/cat01.avif);
-            background-position: center center;
+
+        body {
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.45)),
+                url(img/cat01.avif);
             background-size: cover;
-            border-radius: 10px;
-            box-shadow: 3px 3px 3px 3px var(--shadow-color);
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-color);
+            overflow-x: hidden;
         }
-        .s01 .userText{
+
+        /* HERO */
+        .s01 {
+            min-height: 100vh;
             position: relative;
-            width: 50%;
-            bottom: -75%;
-            left: 25%;
+            display: flex;
+            align-items: center;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .s01 .box {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg,
+                    var(--primary-color),
+                    transparent);
+            border-radius: 30px;
+            opacity: 0.35;
+            filter: blur(5px);
+        }
+
+        .s01 .b01 {
+            top: -80px;
+            left: -80px;
+        }
+
+        .s01 .b02 {
+            top: -80px;
+            right: -80px;
+        }
+
+        .s01 .b03 {
+            bottom: -80px;
+            left: -80px;
+        }
+
+        .s01 .b04 {
+            bottom: -80px;
+            right: -80px;
+        }
+
+        .hero-card {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .s01 .userImg {
+            min-height: 650px;
+            background-image:
+                linear-gradient(to top,
+                    rgba(0, 0, 0, 0.8),
+                    rgba(0, 0, 0, 0.15)),
+                url(img/cat01.avif);
+            background-position: center;
+            background-size: cover;
+            padding: 60px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .s01 .userText {
             color: var(--text-user);
+            max-width: 650px;
         }
-        .s02{
-            margin-top: 20px;
-            text-align: center;
-            color: var(--text-color);
+
+        .s01 .userText h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
         }
-        .s02 .card{
-            display: inline-block;
-            width: 240px;
-            background-color: var(--card-color);
-            padding: 10px;
-            margin: 5px;
-            text-align: left;
-            color: var(--text-color);
-            border-radius: 10px;
+
+        .s01 .userText h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #f8f9fa;
         }
-        .s02 a{
-            display: block;
-            color: var(--text-user);
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
+
+        .s01 .userText p {
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .s01 hr {
+            width: 120px;
+            height: 4px;
+            border: none;
             background-color: var(--accent-color);
-            width: 80px;
-            padding: 5px;
-            margin-top: 5px;
-            border-radius: 5px;
+            opacity: 1;
+            margin: 20px 0;
+            border-radius: 999px;
+        }
+
+        /* WORKS */
+        .s02 {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .work-card {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            padding: 30px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all .3s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .work-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .work-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .work-card p {
+            min-height: 80px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .s02 a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg,
+                    var(--accent-color),
+                    var(--primary-color));
+            padding: 10px 24px;
+            border-radius: 999px;
+            font-weight: bold;
+            transition: all .3s;
+            margin-top: 10px;
+        }
+
+        .s02 a:hover {
+            transform: scale(1.05);
+            color: white;
+        }
+
+        /* RWD */
+        @media(max-width:992px) {
+            .s01 .userText h1 {
+                font-size: 3rem;
+            }
+
+            .s01 .userText h2 {
+                font-size: 1.4rem;
+            }
+
+            .s01 .userImg {
+                min-height: 500px;
+                padding: 40px;
+            }
+        }
+
+        @media(max-width:768px) {
+            .s01 {
+                padding: 30px 15px;
+            }
+
+            .s01 .userImg {
+                min-height: 420px;
+                padding: 25px;
+            }
+
+            .s01 .userText h1 {
+                font-size: 2.3rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
         }
     </style>
 </head>
+
 <body>
+
+    <!-- HERO -->
     <section class="s01">
         <div class="box b01"></div>
         <div class="box b02"></div>
         <div class="box b03"></div>
         <div class="box b04"></div>
-        <div class="userImg">
-            <div class="userText">
-            <h1>大橘貓履歷</h1>
-            <hr>
-            <h2>應徵職位：奴才的主人</h2>
-            <p>簡介：相對看法分配，行動解放上去計算機查詢是我考生一大畢竟因此回頭僅供究竟，團結多年服務打算集團家庭信箱。</p>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-10">
+                    <div class="hero-card">
+                        <div class="userImg">
+                            <div class="userText">
+                                <h1>大橘貓履歷</h1>
+                                <hr>
+                                <h2>應徵職位：奴才的主人</h2>
+                                <p>
+                                    簡介：相對看法分配，行動解放上去計算機查詢是我考生一大畢竟因此回頭僅供究竟，團結多年服務打算集團家庭信箱。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
+
     </section>
+
+    <!-- WORK -->
     <section class="s02">
-        <h2><i class="fa-solid fa-paw"></i> 我的作品 <i class="fa-solid fa-paw"></i></h2>
-        <div class="card">
-            <h3>切版練習</h3>
-            <br>
-            <p>初步設計響應式網頁，並以AI美化網頁風格與排版。</p>
-            <a href="20260527-1_AI.html">查看作品</a>
-        </div>
-        <div class="card">
-            <h3>資料庫導入</h3>
-            <br>
-            <p>以json檔模擬資料庫向網頁導入資料。</p>
-            <a href="20260618-2-2.html">查看作品</a>
-        </div>
-        <div class="card">
-            <h3>時間軸</h3>
-            <br>
-            <p>利用Bootstrap的flex排版，利用css before偽元素添加畫面中央的點及線。</p>
-            <a href="20260623-Timeline-AI.html">查看作品</a>
-        </div>
-        <div class="card">
-            <h3>購物網站</h3>
-            <br>
-            <p>西部當然西部點點網路讓她轉載走到來了兩。</p>
-            <a href="#">查看作品</a>
-        </div>
-        <div class="card">
-            <h3>購物網站</h3>
-            <br>
-            <p>銀行目標仔細，網通尤其是擴大，尤其是某。</p>
-            <a href="#">查看作品</a>
+        <div class="container">
+
+            <div class="section-title">
+                <h2>
+                    <i class="fa-solid fa-paw"></i>
+                    我的作品
+                    <i class="fa-solid fa-paw"></i>
+                </h2>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="work-card">
+                        <h3>切版練習</h3>
+                        <p>初步設計響應式網頁，並以AI美化網頁風格與排版。</p>
+                        <a href="20260527-1_AI.html">查看作品</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="work-card">
+                        <h3>資料庫導入</h3>
+                        <p>以json檔模擬資料庫向網頁導入資料。</p>
+                        <a href="20260618-2-2.html">查看作品</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="work-card">
+                        <h3>時間軸</h3>
+                        <p>利用Bootstrap的flex排版，利用css before偽元素添加畫面中央的點及線。</p>
+                        <a href="20260623-Timeline-AI.html">查看作品</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="work-card">
+                        <h3>購物網站</h3>
+                        <p>西部當然西部點點網路讓她轉載走到來了兩。</p>
+                        <a href="#">查看作品</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="work-card">
+                        <h3>購物網站</h3>
+                        <p>銀行目標仔細，網通尤其是擴大，尤其是某。</p>
+                        <a href="#">查看作品</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
