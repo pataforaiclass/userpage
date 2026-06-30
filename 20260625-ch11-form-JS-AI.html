@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表單練習(JS)</title>
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+TC:wght@400;600&display=swap');
+
+    :root {
+      --main-bg: #15110d;
+      --card-bg: rgba(33, 24, 18, 0.92);
+      --gold: #d8b36a;
+      --gold-light: #f5deb3;
+      --border: #6d5230;
+      --text: #f3e6c8;
+      --input-bg: rgba(20, 15, 11, 0.9);
+      --success: #6db17f;
+      --danger: #d16a6a;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(10, 8, 6, 0.88), rgba(10, 8, 6, 0.92)),
+        url("https://images.unsplash.com/photo-1518562180175-34a163b1a9a6?q=80&w=1600&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: "Noto Serif TC", serif;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+
+    .display-4,
+    .display-6 {
+      font-family: "Cinzel", serif;
+      letter-spacing: 3px;
+      border: 2px solid var(--gold);
+      border-radius: 14px;
+      background:
+        linear-gradient(145deg, #4b3520, #2d1f14) !important;
+      color: var(--gold-light) !important;
+      box-shadow:
+        0 0 20px rgba(0, 0, 0, 0.6),
+        inset 0 0 15px rgba(255, 220, 160, 0.08);
+      text-shadow: 0 0 10px rgba(255, 223, 150, 0.35);
+    }
+
+    .col-md-6 {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 35px;
+      box-shadow:
+        0 0 35px rgba(0, 0, 0, 0.65),
+        inset 0 0 20px rgba(255, 219, 145, 0.05);
+      backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .col-md-6::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(216, 179, 106, 0.25);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    .form-label {
+      color: var(--gold-light);
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select,
+    textarea {
+      background-color: var(--input-bg) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      border-radius: 10px !important;
+      padding: 12px 14px;
+      transition: all 0.3s ease;
+      box-shadow: none !important;
+    }
+
+    .form-control:focus,
+    .form-select:focus,
+    textarea:focus {
+      border-color: var(--gold) !important;
+      box-shadow:
+        0 0 0 0.2rem rgba(216, 179, 106, 0.2),
+        0 0 15px rgba(216, 179, 106, 0.25) !important;
+    }
+
+    .form-floating>.form-control~label {
+      color: #d4c2a3;
+    }
+
+    .form-control::placeholder,
+    textarea::placeholder {
+      color: #9e8b6b;
+    }
+
+    .valid-feedback {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .invalid-feedback {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .is-valid {
+      border-color: var(--success) !important;
+    }
+
+    .is-invalid {
+      border-color: var(--danger) !important;
+    }
+
+    .btn {
+      padding: 10px 26px;
+      border-radius: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border-width: 2px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(145deg, #8c5d22, #5c3b14);
+      border-color: #d8b36a;
+      color: #fff5dd;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(145deg, #a06b28, #704718);
+      box-shadow: 0 0 18px rgba(216, 179, 106, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(145deg, #444, #222);
+      border-color: #777;
+      color: #f2f2f2;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+
+    table {
+      color: var(--text) !important;
+      background: rgba(20, 14, 10, 0.92);
+      border: 2px solid var(--border);
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    table th {
+      width: 120px;
+      background: rgba(78, 54, 28, 0.85);
+      color: var(--gold-light);
+      border-color: rgba(216, 179, 106, 0.2) !important;
+      padding: 14px !important;
+    }
+
+    table td {
+      background: rgba(35, 24, 18, 0.95);
+      color: var(--text);
+      border-color: rgba(216, 179, 106, 0.12) !important;
+      padding: 14px !important;
+    }
+
+    option {
+      background-color: #2a1d13;
+      color: var(--text);
+    }
+
+    #showMessage {
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media(max-width:768px) {
+      .col-md-6 {
+        padding: 22px;
+      }
+
+      .display-4,
+      .display-6 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container pt-5">
+    <div class="display-4 fw-bold text-center text-bg-primary py-2"><i class="fa-solid fa-dragon"></i>奇異動物園生物建檔</div>
+    <div class="row justify-content-center">
+      <div class="col-md-6 mt-3">
+        <div class="mb-3 form-floating">
+          <input type="text" class="form-control" name="pName" id="pName" placeholder="">
+          <div class="valid-feedback">生物名稱字數符合規格</div>
+          <div class="invalid-feedback">生物名稱字數不符合規格</div>
+          <label for="pName" class="form-label">生物名稱(字數限10字以內)</label>
+        </div>
+
+        <div class="mb-3">
+          <label for="pNumber" class="form-label">數量</label>
+          <input type="number" class="form-control" name="pNumber" id="pNumber" value="1" min="1" max="1000">
+          <div class="valid-feedback">生物數量符合限制</div>
+          <div class="invalid-feedback">生物數量不符合限制，限制在1~1000之內</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pSize" class="form-label">生物體型</label>
+          <input type="text" class="form-control" name="pSize" id="pSize" placeholder="" list="pSizeList">
+          <datalist id="pSizeList">
+            <option value="超巨型"></option>
+            <option value="巨型"></option>
+            <option value="大型"></option>
+            <option value="中型"></option>
+            <option value="小型"></option>
+            <option value="微型"></option>
+          </datalist>
+          <div class="valid-feedback">輸入字數符合規格</div>
+          <div class="invalid-feedback">輸入字數不符合規格(限3字內)</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pType" class="form-label">生物類型</label>
+          <select name="pType" id="pType" class="form-select">
+            <option value="" disabled selected class="">***請選擇生物類型***</option>
+            <option value="異怪">異怪</option>
+            <option value="野獸">野獸</option>
+            <option value="天界生物">天界生物</option>
+            <option value="構裝生物">構裝生物</option>
+            <option value="龍類">龍類</option>
+            <option value="元素">元素</option>
+            <option value="精類">精類</option>
+            <option value="邪魔">邪魔</option>
+            <option value="巨人">巨人</option>
+            <option value="類人生物">類人生物</option>
+            <option value="怪獸">怪獸</option>
+            <option value="泥怪">泥怪</option>
+            <option value="植物">植物</option>
+            <option value="不死生物">不死生物</option>
+          </select>
+          <div class="valid-feedback">已選擇生物類型</div>
+          <div class="invalid-feedback">請選擇生物類型</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pIntro" class="form-label">簡介</label>
+          <textarea rows="7" class="form-control" name="pIntro" id="pIntro" placeholder="若無資訊可留白"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-label">使用場地</div>
+          <div id="pSiteGroup" class="">
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" class="form-check-input pSite" value="室外">
+              <label for="" class="form-check-label">室外</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" class="form-check-input pSite" value="室內">
+              <label for="" class="form-check-label">室內</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" class="form-check-input pSite" value="水族箱">
+              <label for="" class="form-check-label">水族箱</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" class="form-check-input pSite" value="恆溫箱">
+              <label for="" class="form-check-label">恆溫箱</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" class="form-check-input pSite" value="其他">
+              <label for="" class="form-check-label">
+                其他
+                <input type="text" id="pSiteOther" class="form-control-sm">
+              </label>
+            </div>
+          </div>
+          <div class="valid-feedback">已選擇使用場地</div>
+          <div class="invalid-feedback" id="pSiteInv">請選擇使用場地</div>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-label">園區所需配件</div>
+          <div id="pAccGroup" class="">
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" class="form-check-input pAcc" value="額外窩棚">
+              <label for="" class="form-check-label">額外窩棚</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" class="form-check-input pAcc" value="爬架">
+              <label for="" class="form-check-label">爬架</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" class="form-check-input pAcc" value="抓板">
+              <label for="" class="form-check-label">抓板</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" class="form-check-input pAcc" value="滾輪">
+              <label for="" class="form-check-label">滾輪</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" class="form-check-input pAcc" value="耐咬玩具">
+              <label for="" class="form-check-label">耐咬玩具</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3 form-check form-switch">
+          <input type="checkbox" name="pStatus" id="pStatus" class="form-check-input" checked>
+          <label for="pStatus" class="form-check-label" id="pStatusText">目前狀態：展覽中</label>
+        </div>
+
+        <div class="mt-4 mb-4 text-end">
+          <button id="btnCancel" class="btn btn-secondary">取消</button>
+          <button id="btnSubmit" class="btn btn-primary">確認</button>
+        </div>
+      </div>
+    </div>
+    <div id="showMessageRow" class="row justify-content-center mb-4 d-none">
+      <div class="display-6 fw-bold text-center text-bg-success py-2">生物建檔 - 明細確認</div>
+      <div class="col-md-6">
+        <div id="showMessage"></div>
+      </div>
+      <div class="mt-4 text-end">
+        <button id="btnShowMessageCancel" class="btn btn-secondary">取消</button>
+        <button id="btnShowMessageSubmit" class="btn btn-warning">確認</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-4.0.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    let flag_pName = false;
+    let flag_pNumber = true;
+    let flag_pSize = false;
+    let flag_pType = false;
+    let flag_pSite = false;
+    $(function () {
+      //網頁重整時消除 hash
+      if (window.location.hash) {
+        // 先回到最上方
+        $("html, body").scrollTop(0);
+        // 移除網址 hash
+        history.replaceState(
+          null,
+          null,
+          window.location.pathname + window.location.search
+        );
+      }
+
+      //監聽pName
+      $("#pName").on("input", function () {
+        // console.log($(this).val());
+        let pName = $(this).val().trim();
+        if (pName.length >= 1 && pName.length <= 10) {
+          //符合規定
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_pName = true;
+        } else {
+          //不符合規定
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_pName = false;
+        }
+      });
+      //監聽pNumber
+      $("#pNumber").on("input", function () {
+        let pNumber = Number($(this).val());
+        if (pNumber >= 1 && pNumber <= 1000) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_pNumber = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_pNumber = false;
+        }
+      });
+      $("#pSize").on("input", function () {
+        // console.log($(this).val());
+        let pSize = $(this).val().trim();
+        if (pSize.length >= 1 && pSize.length <= 3) {
+          //符合規定
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_pSize = true;
+        } else {
+          //不符合規定
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_pSize = false;
+        }
+      });
+      $("#pType").on("blur", function () {
+        if ($(this).val() != null) {
+          $(this).removeClass("is-invalid").addClass("is-valid");
+          flag_pType = true;
+        } else {
+          $(this).removeClass("is-valid").addClass("is-invalid");
+          flag_pType = false;
+        }
+      });
+      $("#pStatus").on("change", function () {
+        let pStatus = $(this).prop("checked");
+        if (pStatus) {
+          $("#pStatusText").text("目前狀態：展覽中");
+        } else {
+          $("#pStatusText").text("目前狀態：休養中");
+        }
+      });
+      $(".pSite").on("change", function () {
+        // console.log($(".pSite:checked").val());
+        if ($(".pSite:checked").val() != undefined && $(".pSite:checked").val() != "其他") {
+          $("#pSiteGroup").removeClass("is-invalid").addClass("is-valid");
+          flag_pSite = true;
+        } else if ($(".pSite:checked").val() == "其他") {
+          $("#pSiteOther").on("change", function () {
+            // console.log($("#pSiteOther").val());
+            if ($("#pSiteOther").val() != null && $("#pSiteOther").val().trim() != "") {
+              $("#pSiteGroup").removeClass("is-invalid").addClass("is-valid");
+              flag_pSite = true;
+            } else {
+              $("#pSiteInv").text("請輸入其他場地名稱");
+              $("#pSiteGroup").removeClass("is-valid").addClass("is-invalid");
+              flag_pSite = false;
+            }
+          });
+        } else {
+          $("#pSiteGroup").removeClass("is-valid").addClass("is-invalid");
+          flag_pSite = false;
+        }
+      });
+
+      //按鈕監聽btnSubmit
+      $("#btnSubmit").on("click", function () {
+        let pIntro = ($("#pIntro").val() == "" || $("#pIntro").val() == null) ? "暫無簡介" : $("#pIntro").val().trim();
+        if (flag_pName && flag_pNumber && flag_pSize && flag_pType && flag_pSite) {
+          let pSite = $(".pSite:checked").val() == "其他" ? $("#pSiteOther").val().trim() : $(".pSite:checked").val();
+
+          let pAccArr = [];
+          $(".pAcc:checked").each(function () {
+            pAccArr.push($(this).val());
+          });
+          if(pAccArr.length == 0){
+            pAccArr.push("無需配件");
+          }
+
+          let pStatusText = $("#pStatus").prop("checked") ? "展覽中" : "休養中";
+
+          let strHTML = `<table class="table border mt-3">
+          <tr>
+            <th class="col-2 text-end">名稱<th>
+            <td class="col-10">${$("#pName").val().trim()}</td>
+          </tr>
+          <tr>
+            <th class="col-2 text-end">數量<th>
+            <td class="col-10">${$("#pNumber").val()}</td>
+          </tr>
+          <tr>
+            <th class="col-2 text-end">體型<th>
+            <td class="col-10">${$("#pSize").val().trim()}</td>
+          </tr>
+          <tr>
+            <th class="col-2 text-end">類型<th>
+            <td class="col-10">${$("#pType").val().trim()}</td>
+          </tr>
+          <tr>
+            <th class="col-2 text-end">簡介<th>
+            <td class="col-10">${pIntro}</td>
+          </tr>
+          <tr>
+            <th class="col-2 text-end">使用場地<th>
+            <td class="col-10">${pSite}</td>
+          </tr>
+          <tr>
+            <th class="col-2 text-end">園區配件<th>
+            <td class="col-10">${pAccArr.join("、")}</td>
+          </tr>
+          <tr>
+            <th class="col-2 text-end">目前狀態<th>
+            <td class="col-10">${pStatusText}</td>
+          </tr>
+          </table>`;
+
+          $("#showMessageRow").removeClass("d-none");
+          $("#showMessage").html(strHTML);
+
+          window.location.hash = "#showMessageRow";
+        } else {
+          let jump = "";
+          if (!flag_pSite) {
+            if($(".pSite:checked").val() == "其他"){
+              $("#pSiteInv").text("請輸入其他場地名稱");
+            }
+            $("#pSiteGroup").removeClass("is-valid").addClass("is-invalid");
+            jump = "#pSiteGroup";
+          }
+          if (!flag_pType) {
+            $("#pType").removeClass("is-valid").addClass("is-invalid");
+            jump = "#pType";
+          }
+          if (!flag_pSize) {
+            $("#pSize").removeClass("is-valid").addClass("is-invalid");
+            jump = "#pSize";
+          }
+          if (!flag_pNumber) {
+            $("#pNumber").removeClass("is-valid").addClass("is-invalid");
+            jump = "#pNumber";
+          }
+          if (!flag_pName) {
+            $("#pName").removeClass("is-valid").addClass("is-invalid");
+            jump = "#pName";
+          }
+          window.location.hash = jump;
+          Swal.fire({
+            title: "警告",
+            text: "有欄位錯誤，請修正",
+            icon: "warning"
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
