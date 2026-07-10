@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>奇異動物園生物建檔</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="css/zoo_form.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" href="/userpage">奇異動物園管理</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <!-- <li class="nav-item">
+            <a class="nav-link active  text-light" aria-current="page" href="#">Home</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link  text-light" href="20260702-ch11-list.html">生物目錄</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link  text-light" href="20260625-ch11-form-JS-AI2.html">生物建檔</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container pt-5">
+    <div class="display-4 fw-bold text-center text-bg-primary py-2"><i class="fa-solid fa-dragon"></i>奇異動物園生物建檔</div>
+    <div class="row justify-content-center">
+      <div class="col-md-6 mt-3">
+        <div class="mb-3 form-floating">
+          <input type="text" class="form-control" name="pName" id="pName" placeholder="">
+          <div class="valid-feedback">生物名稱字數符合規格</div>
+          <div class="invalid-feedback">生物名稱字數不符合規格</div>
+          <label for="pName" class="form-label">生物名稱(字數限10字以內)</label>
+        </div>
+
+        <div class="mb-3">
+          <label for="pNumber" class="form-label">數量</label>
+          <input type="number" class="form-control" name="pNumber" id="pNumber" value="1" min="1" max="1000">
+          <div class="valid-feedback">生物數量符合限制</div>
+          <div class="invalid-feedback">生物數量不符合限制，限制在1~1000之內</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pSize" class="form-label">生物體型</label>
+          <input type="text" class="form-control" name="pSize" id="pSize" placeholder="" list="pSizeList">
+          <datalist id="pSizeList">
+            <option value="超巨型"></option>
+            <option value="巨型"></option>
+            <option value="大型"></option>
+            <option value="中型"></option>
+            <option value="小型"></option>
+            <option value="微型"></option>
+          </datalist>
+          <div class="valid-feedback">輸入字數符合規格</div>
+          <div class="invalid-feedback">輸入字數不符合規格(限3字內)</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pType" class="form-label">生物類型</label>
+          <select name="pType" id="pType" class="form-select">
+            <option value="" disabled selected class="">***請選擇生物類型***</option>
+            <option value="異怪">異怪</option>
+            <option value="野獸">野獸</option>
+            <option value="天界生物">天界生物</option>
+            <option value="構裝生物">構裝生物</option>
+            <option value="龍類">龍類</option>
+            <option value="元素">元素</option>
+            <option value="精類">精類</option>
+            <option value="邪魔">邪魔</option>
+            <option value="巨人">巨人</option>
+            <option value="類人生物">類人生物</option>
+            <option value="怪獸">怪獸</option>
+            <option value="泥怪">泥怪</option>
+            <option value="植物">植物</option>
+            <option value="不死生物">不死生物</option>
+          </select>
+          <div class="valid-feedback">已選擇生物類型</div>
+          <div class="invalid-feedback">請選擇生物類型</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pIntro" class="form-label">簡介</label>
+          <textarea rows="7" class="form-control" name="pIntro" id="pIntro" placeholder="若無資訊可留白"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-label">使用場地</div>
+          <div id="pSiteGroup" class="">
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" id="pSite01" class="form-check-input pSite" value="室外">
+              <label for="pSite01" class="form-check-label">室外</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" id="pSite02" class="form-check-input pSite" value="室內">
+              <label for="pSite02" class="form-check-label">室內</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" id="pSite03" class="form-check-input pSite" value="水族箱">
+              <label for="pSite03" class="form-check-label">水族箱</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" id="pSite04" class="form-check-input pSite" value="恆溫箱">
+              <label for="pSite04" class="form-check-label">恆溫箱</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" name="pSite" id="pSite05" class="form-check-input pSite" value="其他">
+              <label for="pSite05" class="form-check-label">
+                其他
+                <input type="text" id="pSiteOther" class="form-control-sm">
+              </label>
+            </div>
+          </div>
+          <div class="valid-feedback">已選擇使用場地</div>
+          <div class="invalid-feedback" id="pSiteInv">請選擇使用場地</div>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-label">園區所需配件</div>
+          <div id="pAccGroup" class="">
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" id="pAcc01" class="form-check-input pAcc" value="額外窩棚">
+              <label for="pAcc01" class="form-check-label">額外窩棚</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" id="pAcc02" class="form-check-input pAcc" value="爬架">
+              <label for="pAcc02" class="form-check-label">爬架</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" id="pAcc03" class="form-check-input pAcc" value="抓板">
+              <label for="pAcc03" class="form-check-label">抓板</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" id="pAcc04" class="form-check-input pAcc" value="滾輪">
+              <label for="pAcc04" class="form-check-label">滾輪</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="checkbox" name="pAcc" id="pAcc05" class="form-check-input pAcc" value="耐咬玩具">
+              <label for="pAcc05" class="form-check-label">耐咬玩具</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3 form-check form-switch">
+          <input type="checkbox" name="pStatus" id="pStatus" class="form-check-input" checked>
+          <label for="pStatus" class="form-check-label" id="pStatusText">目前狀態：展覽中</label>
+        </div>
+
+        <div class="mt-4 mb-4 text-end">
+          <button id="btnCancel" class="btn btn-secondary">取消</button>
+          <button id="btnSubmit" class="btn btn-primary">確認</button>
+        </div>
+      </div>
+    </div>
+    <div id="showMessageRow" class="row justify-content-center mb-4 d-none">
+      <div class="display-6 fw-bold text-center text-bg-success mb-2">生物建檔 - 明細確認</div>
+      <div class="col-md-6">
+        <div id="showMessage"></div>
+        <div class="mt-4 text-end">
+          <button id="btnCancel2" class="btn btn-secondary">取消</button>
+          <button id="btnSend" class="btn btn-warning">確認</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-4.0.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
+  <script src="js/zoo_form.js"></script>
+</body>
+
+</html>

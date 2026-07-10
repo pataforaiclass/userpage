@@ -1,0 +1,330 @@
+:root {
+  --bg-dark: #16120d;
+  --bg-card: rgba(36, 28, 18, 0.92);
+  --bg-panel: rgba(54, 42, 27, 0.95);
+
+  --gold: #d8b36a;
+  --gold-light: #f5ddb0;
+  --bronze: #8a6234;
+
+  --line: rgba(216, 179, 106, .25);
+
+  --text-main: #f4e7cf;
+  --text-sub: #c6b89c;
+
+  --success: #7ccf7c;
+  --danger: #ff8d8d;
+
+  --shadow:
+    0 0 0 1px rgba(216, 179, 106, .18),
+    0 10px 30px rgba(0, 0, 0, .45);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(8, 8, 8, .72), rgba(8, 8, 8, .78)),
+    url("https://images.unsplash.com/photo-1518562180175-34a163b1a9a6?q=80&w=1920&auto=format&fit=crop") center/cover fixed;
+  color: var(--text-main);
+  font-family:
+    "Segoe UI",
+    "Microsoft JhengHei",
+    sans-serif;
+  letter-spacing: .5px;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* ===== 主標題 ===== */
+.display-4 {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(216, 179, 106, .35);
+  background:
+    linear-gradient(135deg,
+      rgba(64, 47, 26, .98),
+      rgba(25, 20, 15, .98));
+  color: var(--gold-light) !important;
+  text-shadow: 0 0 10px rgba(255, 220, 140, .3);
+  box-shadow: var(--shadow);
+  padding: 1.2rem !important;
+  margin-bottom: 1rem;
+}
+
+.display-4::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg,
+      transparent 0%,
+      rgba(255, 255, 255, .05) 40%,
+      transparent 80%);
+  pointer-events: none;
+}
+
+.display-4 i {
+  color: var(--gold);
+  margin-right: 12px;
+}
+
+/* ===== 主表單卡片 ===== */
+.col-md-6 {
+  background: var(--bg-card);
+  border: 1px solid rgba(216, 179, 106, .2);
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(4px);
+}
+
+/* ===== Label ===== */
+.form-label {
+  color: var(--gold-light);
+  font-weight: 600;
+  margin-bottom: .55rem;
+}
+
+/* ===== Input ===== */
+.form-control,
+.form-select,
+textarea,
+.form-control-sm {
+  background: rgba(15, 12, 9, .92) !important;
+  border: 1px solid rgba(216, 179, 106, .25) !important;
+  color: var(--text-main) !important;
+  border-radius: 10px !important;
+  transition: all .25s ease;
+  box-shadow: none !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus,
+.form-control-sm:focus {
+  border-color: var(--gold) !important;
+  box-shadow:
+    0 0 0 .2rem rgba(216, 179, 106, .15) !important;
+  background: rgba(25, 20, 14, .96) !important;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+  color: #9d8c72;
+}
+
+/* ===== floating ===== */
+.form-floating>label {
+  color: #bca782;
+}
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label {
+  color: var(--gold-light);
+}
+
+/* ===== radio checkbox ===== */
+.form-check {
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(216, 179, 106, .08);
+  padding: .65rem 1rem .65rem 2.2rem;
+  border-radius: 10px;
+  margin-bottom: .6rem;
+  margin-right: .5rem !important;
+  transition: all .2s ease;
+}
+
+.form-check:hover {
+  background: rgba(216, 179, 106, .06);
+  border-color: rgba(216, 179, 106, .25);
+}
+
+.form-check-input {
+  background-color: #2a2118;
+  border-color: rgba(216, 179, 106, .45);
+}
+
+.form-check-input:checked {
+  background-color: var(--gold);
+  border-color: var(--gold);
+}
+
+.form-check-label {
+  color: var(--text-sub);
+}
+
+/* ===== switch ===== */
+.form-switch {
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(216, 179, 106, .12);
+  border-radius: 12px;
+  padding: 1rem 1rem 1rem 3.5rem;
+}
+
+#pStatusText {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* ===== 按鈕 ===== */
+.btn {
+  border-radius: 12px;
+  padding: .7rem 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: none;
+  transition: all .25s ease;
+}
+
+.btn-primary {
+  background:
+    linear-gradient(135deg,
+      #9d6f37,
+      #d8b36a);
+  color: #24180d;
+  box-shadow:
+    0 5px 18px rgba(216, 179, 106, .25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.btn-secondary {
+  background:
+    linear-gradient(135deg,
+      #3c3c3c,
+      #616161);
+  color: #f1f1f1;
+}
+
+.btn-warning {
+  background:
+    linear-gradient(135deg,
+      #5d3a18,
+      #c68f3c);
+  color: #fff6df;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== 驗證 ===== */
+.valid-feedback {
+  color: var(--success);
+}
+
+.invalid-feedback {
+  color: var(--danger);
+}
+
+.is-valid {
+  border-color: rgba(124, 207, 124, .7) !important;
+}
+
+.is-invalid {
+  border-color: rgba(255, 141, 141, .75) !important;
+}
+
+/* ===== 確認區 ===== */
+#showMessageRow {
+  margin-top: 2rem;
+}
+
+#showMessageRow .display-6 {
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg,
+      #324929,
+      #1c2f16) !important;
+  color: #e8ffe2;
+  border: 1px solid rgba(122, 195, 122, .25);
+  box-shadow: var(--shadow);
+}
+
+#showMessage {
+  background: var(--bg-panel);
+  border:
+    1px solid rgba(216, 179, 106, .18);
+  border-top: none;
+  border-radius: 0 0 18px 18px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+/* ===== table ===== */
+.table {
+  margin-bottom: 0;
+  color: var(--text-main);
+  border-color: rgba(216, 179, 106, .18) !important;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.table tr {
+  border-color: rgba(216, 179, 106, .1);
+}
+
+.table th {
+  background: rgba(216, 179, 106, .08);
+  color: var(--gold-light);
+  font-weight: 700;
+  padding: 1rem;
+  border-color: rgba(216, 179, 106, .1) !important;
+}
+
+.table td {
+  background: rgba(255, 255, 255, .02);
+  padding: 1rem;
+  color: var(--text-sub);
+  border-color: rgba(216, 179, 106, .08) !important;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #120f0b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6b522f;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a37a43;
+}
+
+/* ===== 響應式 ===== */
+@media (max-width: 768px) {
+
+  .col-md-6 {
+    padding: 1.25rem;
+  }
+
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .form-check {
+    display: block;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: .75rem;
+  }
+
+  .text-end {
+    text-align: center !important;
+  }
+}
