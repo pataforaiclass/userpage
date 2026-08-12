@@ -38,15 +38,20 @@
     <div class="display-4 fw-bold text-center text-bg-primary py-2"><i class="fa-solid fa-dragon"></i>奇異動物園生物目錄</div>
     <div class="row">
       <div class="col-12">
-        <div class="d-flex justify-content-start">
-          <span>每頁顯示</span>
-          <select name="pageSize" id="pageSize">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-          </select>
-          <span>筆</span>
+        <div class="row">
+          <div class="col-3 d-flex align-items-center justify-content-start">
+            <label for="pageSize" class="form-label forPageSize">每頁顯示</label>
+            <select name="pageSize" id="pageSize" class="form-select">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <label for="pageSize" class="form-label forPageSize">筆</label>
+          </div>
+          <div class="col-9">
+            <input type="text" name="keyword" id="keyword" class="form-control" placeholder="關鍵字搜尋">
+          </div>
         </div>
         <table class="table mt-3 mb-3 table-bordered table-rwd">
           <thead>
@@ -237,6 +242,11 @@
       </div>
     </div>
   </div>
+
+  <a href="index.html" class="back-home">
+    <i class="fas fa-home"></i>
+    <span>回首頁</span>
+  </a>
 
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/jquery-4.0.0.min.js"></script>

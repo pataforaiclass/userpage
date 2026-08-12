@@ -187,6 +187,63 @@
         height: 220px;
       }
     }
+
+    /* ===========================
+      回首頁按鈕
+    =========================== */
+
+    .back-home {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+
+      width: 65px;
+      height: 65px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      background: #195d32;
+      color: #fff;
+
+      text-decoration: none;
+      border-radius: 8px;
+
+      /* 尚未移入時半透明 */
+      opacity: 0.5;
+
+      /* 動畫 */
+      transition: opacity 0.3s ease,
+        transform 0.3s ease;
+
+      z-index: 9999;
+    }
+
+    /* 滑鼠移入 */
+    .back-home:hover {
+      opacity: 1;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* 圖示 */
+    .back-home i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    /* 文字 */
+    .back-home span {
+      font-size: 13px;
+    }
+
+    @media (max-width: 576px) {
+      .back-home {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -335,6 +392,11 @@
 
     </div>
   </div>
+
+  <a href="index.html" class="back-home">
+    <i class="fas fa-home"></i>
+    <span>回首頁</span>
+  </a>
 
   <script src="js/bootstrap.bundle.min.js"></script>
 </body>

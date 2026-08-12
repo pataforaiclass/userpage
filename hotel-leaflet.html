@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaflet-OSM 旅館地圖</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/sweetalert2.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    /* === 整體 === */
+    body {
+      margin: 0;
+      background-color: #F3F1EC;
+      color: #3F4540;
+    }
+
+    #app {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hotel-sidebar {
+      height: 100vh;
+      padding: 0 16px;
+      background-color: #E8E4DC;
+      border-right: 1px solid #D8D6CE;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+      z-index: 1000;
+    }
+
+    .hotel-sidebar::before {
+      content: "台中住宿搜尋";
+      display: block;
+      padding: 20px 4px 12px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #3F4540;
+    }
+
+    /* === 下拉選單 === */
+
+    .hotel-select {
+      border-radius: 8px;
+      border: 1px solid #D8D6CE;
+      padding: 10px 12px;
+      background-color: #FAF9F6;
+      color: #3F4540;
+      font-size: 15px;
+      transition: all 0.2s ease;
+    }
+
+    .hotel-select:focus {
+      border-color: #9BA89A;
+      background-color: #FAF9F6;
+      box-shadow: 0 0 0 0.2rem rgba(113, 129, 111, 0.15);
+    }
+
+    /* === 搜尋結果區域 === */
+
+    .hotel-list {
+      height: 85vh;
+      overflow-y: auto;
+      margin-top: 16px;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+    }
+
+    /* 捲軸 */
+    .hotel-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .hotel-list::-webkit-scrollbar-thumb {
+      background-color: #C5C6BF;
+      border-radius: 10px;
+    }
+
+    .hotel-list::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    /* === 搜尋結果提示 === */
+
+    .hotel-result {
+      border: none;
+      background-color: transparent;
+      padding: 0;
+    }
+
+    .hotel-result .alert {
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    /* === 旅館卡片 === */
+    .hotel-item {
+      cursor: pointer;
+      margin-bottom: 12px;
+      padding: 12px;
+      border: 1px solid #D8D6CE !important;
+      border-radius: 10px !important;
+      background-color: #FAF9F6;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .hotel-item:hover {
+      background-color: #E1E5DE;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(63, 69, 64, 0.12);
+    }
+
+    /* === 旅館圖片 === */
+    .hotel-img {
+      display: block;
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 8px;
+    }
+
+    /* === 旅館資訊 === */
+    .hotel-name {
+      margin-top: 12px;
+      margin-bottom: 8px;
+      font-size: 20px;
+      line-height: 1.4;
+      color: #3F4540;
+    }
+
+    .hotel-info {
+      margin-bottom: 5px;
+      color: #747A74;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* === 地圖 === */
+    .hotel-map {
+      height: 100vh;
+      padding: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    #map {
+      height: 100vh;
+    }
+
+    /* === RWD === */
+    @media (max-width: 767.98px) {
+      #app {
+        height: auto;
+        overflow: visible;
+      }
+
+      .hotel-sidebar {
+        height: auto;
+        min-height: 100vh;
+        border-right: none;
+      }
+
+      .hotel-list {
+        height: 60vh;
+      }
+
+      .hotel-map {
+        height: 60vh;
+      }
+
+      #map {
+        height: 60vh;
+      }
+    }
+
+    /* ===========================
+      回首頁按鈕
+    =========================== */
+
+    .back-home {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+
+      width: 65px;
+      height: 65px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      background: #195d32;
+      color: #fff;
+
+      text-decoration: none;
+      border-radius: 8px;
+
+      /* 尚未移入時半透明 */
+      opacity: 0.5;
+
+      /* 動畫 */
+      transition: opacity 0.3s ease,
+        transform 0.3s ease;
+
+      z-index: 9999;
+    }
+
+    /* 滑鼠移入 */
+    .back-home:hover {
+      opacity: 1;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* 圖示 */
+    .back-home i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    /* 文字 */
+    .back-home span {
+      font-size: 13px;
+    }
+
+    @media (max-width: 576px) {
+      .back-home {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 hotel-sidebar vh-100">
+        <select name="" id="" class="form-select mt-3 hotel-select" v-model="chosenCity" @change="getAreaData()">
+          <option value="" disabled selected class="text-center">選擇縣市名稱</option>
+          <option :value="item.CityName" v-for="item in cityData">{{ item.CityName }}</option>
+        </select>
+        <select name="" id="" class="form-select mt-3 hotel-select" v-model="chosenArea" @change="choseHotelData">
+          <option value="" disabled selected class="text-center">選擇鄉鎮區名稱</option>
+          <option :value="item.AreaName" v-for="item in areaData">{{ item.AreaName }}</option>
+        </select>
+
+        <ul class="list-group mt-3 hotel-list" style="height: 85vh; overflow-y: scroll;">
+          <li class="list-group-item hotel-result mb-2" v-if="chosenCity && chosenArea && chosenHotelData.length === 0">
+            <div class="alert alert-warning mb-0">搜尋地區：{{chosenCity==chosenArea?chosenCity:chosenCity+chosenArea}} 查無資料
+            </div>
+          </li>
+          <li class="list-group-item hotel-result mb-2" v-if="chosenCity && chosenArea && chosenHotelData.length > 0">
+            <div class="alert alert-success mb-0">搜尋地區：{{chosenCity==chosenArea?chosenCity:chosenCity+chosenArea}} 共有 {{
+              chosenHotelData.length }} 筆資料</div>
+          </li>
+          <li class="list-group-item hotel-item" v-for="item in chosenHotelData" @click="hotelMap(item)">
+            <img :src="item.img" class="hotel-img">
+            <div class="h4 fw-bold hotel-name">{{item.name}}</div>
+            <div class="hotel-info">電話：{{item.tel}}</div>
+            <div class="hotel-info">地址：{{item.address}}</div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-9 bg-info" id="map"></div>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-home">
+    <i class="fas fa-home"></i>
+    <span>回首頁</span>
+  </a>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="js/vue.global.js"></script>
+  <script src="js/sweetalert2.all.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const App = {
+      data() {
+        return {
+          title: "OSM - 全國旅館分佈圖",
+          cityData: [],
+          areaData: [],
+          hotelData: [],
+          chosenHotelData: [],
+          chosenCity: "",
+          chosenArea: "",
+          selectedCity: "",
+          map: null,
+          markerGroup: null
+        }
+      },
+      methods: {
+        getCityData() {
+          const vm = this;
+          axios.get('js/CityCountyData.json')
+            .then(function (res) {
+              // console.log(res);
+              vm.cityData = res.data;
+            })
+            .catch(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              //
+            });
+        },
+        getAreaData() {
+          const vm = this;
+          vm.chosenArea = "";
+          vm.chosenHotelData = [];
+          vm.cityData.forEach(city => {
+            if (city.CityName == vm.chosenCity) {
+              vm.areaData = city.AreaList;
+            }
+          });
+        },
+        getHotelData() {
+          const vm = this;
+          axios
+            .get('js/HotelList.json')
+            .then(function (response) {
+              // console.log(response.data.Hotels);
+              vm.hotelData = response.data.Hotels.map(function (item, index) {
+                let name = (item.HotelName ?? '').trim();
+                if (name == '') name = '未提供名稱';
+                let img = (item.Images[0]?.URL ?? '').trim();
+                if (img == '') img = 'img/placeholder.png';
+                let PositionLat = item.PositionLat;
+                let PositionLon = item.PositionLon;
+                let city = (item.PostalAddress.City ?? '').trim();
+                let area = (item.PostalAddress.Town ?? '').trim();
+                let address = (item.PostalAddress.City ?? '').trim() + (item.PostalAddress.Town ?? '').trim() + (item.PostalAddress.StreetAddress ?? '').trim();
+                if (address == '') address = '未提供地址';
+                let tel = (item.Telephones[0]?.Tel ?? '').trim();
+                if (tel == '') tel = '未提供電話';
+                let hostWords = (item.Description ?? '').trim();
+                if (hostWords == '') hostWords = '未提供簡介';
+                let website = (item.WebsiteURL ?? '').trim();
+                return {
+                  id: index + 1,
+                  name: name,
+                  img: img,
+                  lat: PositionLat,
+                  lon: PositionLon,
+                  city: city,
+                  area: area,
+                  address: address,
+                  tel: tel,
+                  hostWordsSimple: hostWords.lenght < 20 ? hostWords : hostWords.slice(0, 20) + '...',
+                  hostWords: hostWords,
+                  website: website
+                }
+              });
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+            .finally(function () {
+              // always executed
+            });
+        },
+        choseHotelData() {
+          const vm = this;
+          vm.chosenHotelData = [];
+          vm.markerGroup.clearLayers();
+          vm.hotelData.forEach(item => {
+            if (vm.chosenCity == item.city && vm.chosenArea == item.area) {
+              vm.chosenHotelData.push(item);
+              const marker = L.marker([item.lat, item.lon])
+                .addTo(vm.markerGroup);
+              marker.itemId = item.id;
+              if (!item.website) {
+                marker.bindPopup(`<h5 class="fw-bold">${item.name}<h5>`);
+              }
+              else {
+                marker.bindPopup(`
+                  <a href="${item.website}" target="_blank">
+                    <h5 class="fw-bold">
+                      ${item.name}
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <h5>
+                  </a>
+                `);
+              }
+            }
+          });
+
+        },
+        initMap() {
+          this.map = L.map('map').setView([23.7, 121.0], 8);
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(this.map);
+          this.markerGroup = L.layerGroup().addTo(this.map);
+        },
+        hotelMap(item) {
+          this.map.flyTo([item.lat, item.lon], 18);
+          this.markerGroup.eachLayer((marker) => {
+            if (marker.itemId === item.id) {
+              marker.openPopup();
+            }
+          });
+        }
+      },
+      mounted() {
+        const vm = this;
+        vm.getCityData();
+        vm.getHotelData();
+        vm.initMap();
+      },
+      computed: {
+        //
+      }
+    }
+    Vue.createApp(App).mount("#app");
+  </script>
+</body>
+
+</html>

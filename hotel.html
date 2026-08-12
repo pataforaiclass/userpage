@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>旅館列表</title>
+  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/sweetalert2.min.css">
+  <style>
+    /* =========================
+       Color / Base
+    ========================= */
+
+    body {
+      margin: 0;
+      background-color: #F3F1EC;
+      color: #3F4540;
+    }
+
+    #app {
+      min-height: 80vh;
+    }
+
+
+    /* =========================
+       頁面標題
+    ========================= */
+
+    .hotel-page-title {
+      padding: 14px 20px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      background-color: #71816F;
+      color: #FAF9F6;
+      font-size: 42px;
+      letter-spacing: 2px;
+      box-shadow: 0 3px 10px rgba(63, 69, 64, 0.12);
+    }
+
+
+    /* =========================
+       搜尋區
+    ========================= */
+
+    .hotel-search {
+      padding: 4px;
+    }
+
+    .hotel-select {
+      margin-top: 12px !important;
+      padding: 10px 12px;
+      border: 1px solid #D8D6CE;
+      border-radius: 8px;
+      background-color: #FAF9F6;
+      color: #3F4540;
+      transition: all 0.2s ease;
+    }
+
+    .hotel-select:focus {
+      border-color: #9BA89A;
+      background-color: #FAF9F6;
+      box-shadow: 0 0 0 0.2rem rgba(113, 129, 111, 0.15);
+    }
+
+
+    /* =========================
+       分頁大小
+    ========================= */
+
+    .page-size {
+      margin-top: 12px !important;
+    }
+
+    .page-size-label {
+      margin-top: 5px;
+      margin-bottom: 0;
+      color: #747A74;
+      font-size: 14px;
+    }
+
+
+    /* =========================
+       搜尋結果提示
+    ========================= */
+
+    .hotel-result-row {
+      min-height: 0;
+    }
+
+    .hotel-result {
+      margin-bottom: 0;
+      border: 1px solid #D8D6CE;
+      border-radius: 9px;
+      background-color: #E1E5DE;
+      color: #4D594C;
+      font-size: 15px;
+    }
+
+    .hotel-result-warning {
+      background-color: #E9E3D6;
+      color: #6D624D;
+    }
+
+
+    /* =========================
+       旅館卡片區
+    ========================= */
+
+    .hotel-card-row {
+      align-items: stretch;
+    }
+
+    .hotel-card {
+      overflow: hidden;
+      border: 1px solid #D8D6CE !important;
+      border-radius: 12px !important;
+      background-color: #FAF9F6;
+      box-shadow: 0 2px 7px rgba(63, 69, 64, 0.07);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .hotel-card:hover {
+      background-color: #F8F7F3;
+      transform: translateY(-4px);
+      box-shadow: 0 7px 18px rgba(63, 69, 64, 0.14);
+    }
+
+
+    /* =========================
+       旅館圖片
+    ========================= */
+
+    .hotel-img {
+      display: block;
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+
+    /* =========================
+       卡片內容
+    ========================= */
+
+    .hotel-card-body {
+      padding: 18px;
+    }
+
+    .hotel-card-title {
+      margin-bottom: 12px;
+      color: #3F4540;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .hotel-card-text {
+      margin-bottom: 8px;
+      color: #747A74;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .hotel-description {
+      min-height: 67px;
+      margin-top: 10px;
+      color: #5E655F;
+    }
+
+
+    /* =========================
+       網站按鈕
+    ========================= */
+
+    .hotel-btn {
+      margin-top: 8px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 7px;
+      background-color: #71816F;
+      color: #FAF9F6;
+      transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .hotel-btn:hover {
+      background-color: #5F6F5D;
+      color: #FAF9F6;
+      transform: translateY(-1px);
+    }
+
+    .hotel-btn.disabled {
+      background-color: #C5C6BF;
+      color: #F3F1EC;
+      opacity: 1;
+    }
+
+
+    /* =========================
+       分頁
+    ========================= */
+
+    .hotel-pagination {
+      margin-bottom: 0;
+    }
+
+    .hotel-pagination .page-item {
+      margin: 0 2px;
+    }
+
+    .hotel-pagination .page-link {
+      min-width: 40px;
+      border: 1px solid #D8D6CE;
+      border-radius: 7px !important;
+      background-color: #FAF9F6;
+      color: #5E655F;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .hotel-pagination .page-link:hover {
+      background-color: #E1E5DE;
+      color: #3F4540;
+      border-color: #C5C9C2;
+    }
+
+    .hotel-pagination .page-item.active .page-link {
+      border-color: #71816F;
+      background-color: #71816F;
+      color: #FAF9F6;
+    }
+
+    .hotel-pagination .page-item.disabled .page-link {
+      background-color: #E8E6E0;
+      color: #AAAFA9;
+      border-color: #D8D6CE;
+    }
+
+
+    /* =========================
+       RWD
+    ========================= */
+
+    @media (max-width: 767.98px) {
+
+      #app {
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+      }
+
+      .hotel-page-title {
+        font-size: 30px;
+        padding: 12px 15px;
+      }
+
+      .hotel-img {
+        height: 180px;
+      }
+
+      .hotel-card-title {
+        font-size: 18px;
+      }
+
+      .hotel-pagination .page-link {
+        min-width: 36px;
+        padding: 7px 9px;
+      }
+    }
+
+    /* ===========================
+      回首頁按鈕
+    =========================== */
+
+    .back-home {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+
+      width: 65px;
+      height: 65px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      background: #195d32;
+      color: #fff;
+
+      text-decoration: none;
+      border-radius: 8px;
+
+      /* 尚未移入時半透明 */
+      opacity: 0.5;
+
+      /* 動畫 */
+      transition: opacity 0.3s ease,
+        transform 0.3s ease;
+
+      z-index: 9999;
+    }
+
+    /* 滑鼠移入 */
+    .back-home:hover {
+      opacity: 1;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* 圖示 */
+    .back-home i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    /* 文字 */
+    .back-home span {
+      font-size: 13px;
+    }
+
+    @media (max-width: 576px) {
+      .back-home {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app" class="container my-4">
+
+    <!-- 頁面標題 -->
+    <div class="display-2 text-center fw-bold hotel-page-title">
+      {{ title }}
+    </div>
+
+
+    <!-- 搜尋區 -->
+    <div class="row hotel-search">
+
+      <div class="col-md-6">
+        <select name="" id="" class="form-select hotel-select" v-model="chosenCity" @change="getAreaData()">
+          <option value="" disabled selected class="text-center">
+            選擇縣市名稱
+          </option>
+
+          <option :value="item.CityName" v-for="item in cityData">
+            {{ item.CityName }}
+          </option>
+        </select>
+      </div>
+
+
+      <div class="col-md-6">
+        <select name="" id="" class="form-select hotel-select" v-model="chosenArea" @change="renderHotelData">
+          <option value="" disabled selected class="text-center">
+            選擇鄉鎮區名稱
+          </option>
+
+          <option :value="item.AreaName" v-for="item in areaData">
+            {{ item.AreaName }}
+          </option>
+        </select>
+      </div>
+
+
+      <div class="col-md-4 col-6">
+        <select name="" id="pageSize" class="form-select hotel-select page-size" v-model="pageSize"
+          @change="renderHotelData">
+          <option value="8">8</option>
+          <option value="12" selected>12</option>
+          <option value="16">16</option>
+          <option value="24">24</option>
+        </select>
+
+        <label for="pageSize" class="form-label page-size-label">
+          分頁大小
+        </label>
+      </div>
+
+    </div>
+
+
+    <!-- 搜尋結果 -->
+    <div class="row g-2 mt-3 justify-content-center hotel-result-row">
+
+      <div class="alert hotel-result hotel-result-warning"
+        v-if="chosenCity && chosenArea && chosenHotelData.length === 0">
+        搜尋地區：
+        {{chosenCity==chosenArea?chosenCity:chosenCity+chosenArea}}
+        查無資料
+      </div>
+
+
+      <div class="alert hotel-result" v-if="chosenCity && chosenArea && chosenHotelData.length > 0">
+        搜尋地區：
+        {{chosenCity==chosenArea?chosenCity:chosenCity+chosenArea}}
+        共有 {{ chosenHotelData.length }} 筆資料
+      </div>
+
+    </div>
+
+
+    <!-- 頁碼 -->
+    <div class="row mt-3 justify-content-center" v-if="totalPage!=0">
+      <div class="col-12">
+
+        <nav>
+          <ul class="pagination hotel-pagination">
+
+            <li class="page-item" :class="{disabled:currentPage==1}" @click="currentPage==1?null:currentPage -= 1">
+              <a class="page-link">
+                &lt;
+              </a>
+            </li>
+
+
+            <li class="page-item" :class="{active:currentPage==item}" aria-current="page" v-for="item in getPagination">
+
+              <a class="page-link" href="#" @click="currentPage=item" v-if="item!='...'">
+                {{item}}
+              </a>
+
+              <a class="page-link" href="#" @click="switchPage()" v-if="item=='...'">
+                {{item}}
+              </a>
+
+            </li>
+
+
+            <li class="page-item" :class="{disabled:currentPage==totalPage||totalPage==0}"
+              @click="currentPage==totalPage?null:currentPage+=1">
+              <a class="page-link" href="#">
+                &gt;
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+
+
+    <!-- 旅館卡片 -->
+    <div class="row g-2 mt-3 justify-content-center hotel-card-row">
+
+      <div class="card col-12 col-sm-6 col-lg-4 col-xl-3 hotel-card" v-for="item in pageHotelData">
+
+        <img :src="item.img" class="card-img-top hotel-img">
+
+
+        <div class="card-body hotel-card-body">
+
+          <h5 class="card-title hotel-card-title">
+            {{item.name}}
+          </h5>
+
+
+          <p class="card-text hotel-card-text">
+            地址：{{item.address}}
+          </p>
+
+
+          <p class="card-text hotel-card-text">
+            電話：{{item.tel}}
+          </p>
+
+
+          <p class="card-text hotel-card-text hotel-description">
+            {{item.hostWords.length>50?item.hostWords.slice(0,50)+"......":item.hostWords}}
+          </p>
+
+
+          <a :href="item.website" class="btn hotel-btn" v-if="item.website">
+            前往網站
+          </a>
+
+
+          <div class="btn hotel-btn disabled" v-if="!item.website">
+            無網站連結
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- 頁碼 -->
+    <div class="row mt-3 justify-content-center" v-if="totalPage!=0">
+      <div class="col-12">
+
+        <nav>
+          <ul class="pagination hotel-pagination">
+
+            <li class="page-item" :class="{disabled:currentPage==1}" @click="currentPage==1?null:currentPage -= 1">
+              <a class="page-link">
+                &lt;
+              </a>
+            </li>
+
+
+            <li class="page-item" :class="{active:currentPage==item}" aria-current="page" v-for="item in getPagination">
+
+              <a class="page-link" href="#" @click="currentPage=item" v-if="item!='...'">
+                {{item}}
+              </a>
+
+              <a class="page-link" href="#" @click="switchPage()" v-if="item=='...'">
+                {{item}}
+              </a>
+
+            </li>
+
+
+            <li class="page-item" :class="{disabled:currentPage==totalPage||totalPage==0}"
+              @click="currentPage==totalPage?null:currentPage+=1">
+              <a class="page-link" href="#">
+                &gt;
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-home">
+    <i class="fas fa-home"></i>
+    <span>回首頁</span>
+  </a>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="js/vue.global.js"></script>
+  <script src="js/sweetalert2.all.min.js"></script>
+  <script>
+    const App = {
+      data() {
+        return {
+          title: "旅館列表",
+          cityData: [],
+          areaData: [],
+          hotelData: [],
+          chosenHotelData: [],
+          chosenCity: "",
+          chosenArea: "",
+          pageSize: 12,
+          currentPage: 1,
+        }
+      },
+      methods: {
+        getCityData() {
+          const vm = this;
+          axios.get('js/CityCountyData.json')
+            .then(function (res) {
+              // console.log(res);
+              vm.cityData = res.data;
+            })
+            .catch(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              //
+            });
+        },
+        getAreaData() {
+          const vm = this;
+          vm.chosenArea = "";
+          vm.chosenHotelData = [];
+          vm.currentPage = 1;
+          vm.cityData.forEach(city => {
+            if (city.CityName == vm.chosenCity) {
+              vm.areaData = city.AreaList;
+            }
+          });
+        },
+        getHotelData() {
+          const vm = this;
+          axios
+            .get('js/HotelList.json')
+            .then(function (response) {
+              // console.log(response.data.Hotels);
+              vm.hotelData = response.data.Hotels.map(function (item, index) {
+                let name = (item.HotelName ?? '').trim();
+                if (name == '') name = '未提供名稱';
+                let img = (item.Images[0]?.URL ?? '').trim();
+                if (img == '') img = 'img/placeholder.png';
+                let city = (item.PostalAddress.City ?? '').trim();
+                let area = (item.PostalAddress.Town ?? '').trim();
+                let address = (item.PostalAddress.City ?? '').trim() + (item.PostalAddress.Town ?? '').trim() + (item.PostalAddress.StreetAddress ?? '').trim();
+                if (address == '') address = '未提供地址';
+                let tel = (item.Telephones[0]?.Tel ?? '').trim();
+                if (tel == '') tel = '未提供電話';
+                let hostWords = (item.Description ?? '').trim();
+                if (hostWords == '') hostWords = '未提供簡介';
+                let website = (item.WebsiteURL ?? '').trim();
+                return {
+                  id: index + 1,
+                  name: name,
+                  img: img,
+                  city: city,
+                  area: area,
+                  address: address,
+                  tel: tel,
+                  hostWords: hostWords,
+                  website: website
+                }
+              });
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+            .finally(function () {
+              // always executed
+            });
+        },
+        renderHotelData() {
+          const vm = this;
+          vm.chosenHotelData = [];
+          vm.currentPage = 1;
+          vm.hotelData.forEach(item => {
+            if (vm.chosenCity == item.city && vm.chosenArea == item.area) {
+              vm.chosenHotelData.push(item);
+            }
+          });
+        },
+        switchPage() {
+          const vm = this;
+          Swal.fire({
+            title: "請輸入頁碼",
+            input: "number",
+            inputAttributes: { min: 1, max: vm.totalPage },
+            showCancelButton: true,
+            confirmButtonText: "確定",
+            cancelButtonText: "取消"
+          }).then((result) => {
+            if (result.isConfirmed) vm.currentPage = result.value
+          });
+        }
+      },
+      mounted() {
+        const vm = this;
+        vm.getCityData();
+        vm.getHotelData();
+      },
+      computed: {
+        totalPage() {
+          const vm = this;
+          return Math.ceil(vm.chosenHotelData.length / vm.pageSize);
+        },
+        pageHotelData() {
+          const vm = this;
+          const start = (vm.currentPage - 1) * vm.pageSize;
+          const end = start + vm.pageSize;
+          return vm.chosenHotelData.slice(start, end)
+        },
+        getPagination() {
+          const vm = this;
+          const totalPage = vm.totalPage
+          const currentPage = vm.currentPage
+          // 頁數不多，全部顯示
+          if (totalPage <= 9) {
+            return Array.from(
+              { length: totalPage },
+              (_, i) => i + 1
+            );
+          }
+
+          // 前面的頁數
+          if (currentPage <= 4) {
+            return [
+              1, 2, 3, 4, 5, 6, 7,
+              "...",
+              totalPage
+            ];
+          }
+
+          // 後面的頁數
+          if (currentPage >= totalPage - 3) {
+            return [
+              1,
+              "...",
+              totalPage - 6,
+              totalPage - 5,
+              totalPage - 4,
+              totalPage - 3,
+              totalPage - 2,
+              totalPage - 1,
+              totalPage
+            ];
+          }
+
+          // 中間
+          return [
+            1,
+            "...",
+            currentPage - 2,
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+            currentPage + 2,
+            "...",
+            totalPage
+          ];
+        }
+      }
+    }
+    Vue.createApp(App).mount("#app");
+  </script>
+</body>
+
+</html>
